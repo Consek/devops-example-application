@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-//@Service
+@Service
 public class RedisService {
 
   private final InstanceRepository instanceRepository;
