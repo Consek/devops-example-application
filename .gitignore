@@ -2,3 +2,7 @@ backend/target
 
 ### VS Code ###
 .vscode/
+
+.idea
+/.idea
+package-lock.json
