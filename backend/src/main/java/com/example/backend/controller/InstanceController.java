@@ -13,27 +13,22 @@ import java.util.List;
 @RestController
 public class InstanceController {
 
-//  private final RedisService redisService;
+  private final RedisService redisService;
 
-//  @Autowired
-//  public InstanceController(RedisService redisService) {
-//    this.redisService = redisService;
-//  }
+  @Autowired
+  public InstanceController(RedisService redisService) {
+    this.redisService = redisService;
+  }
 
   @GetMapping("/instances")
   public List<Instance> instances() {
 
-    return List.of(new Instance("kdkjd", "dklfld", "test43"));
-
-
-//    return redisService.getInstances();
+    return redisService.getInstances();
   }
 
-  @PostMapping("/instances")
+  @PostMapping("/instance")
   public ResponseEntity<String> saveInstance(@RequestBody Instance instance){
-    System.out.println(instance);
-
-//    this.redisService.saveNewInstance(instance);
+    this.redisService.saveNewInstance(instance);
     return ResponseEntity.ok().build();
 
   }

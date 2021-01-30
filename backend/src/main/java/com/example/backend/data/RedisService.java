@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import com.example.backend.Util;
+
 @Service
 public class RedisService {
 
@@ -26,7 +28,7 @@ public class RedisService {
 
   @PostConstruct()
   public void loadTestData(){
-    Instance instance = new Instance("1", "awesome host", "v3");
+    Instance instance = new Instance(Util.getHostName() , "v3");
     this.instanceRepository.save(instance);
   }
 }
