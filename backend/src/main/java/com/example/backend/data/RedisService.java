@@ -24,6 +24,10 @@ public class RedisService {
   //TODO
   public void markMyselfAsActive(){
   }
+  //TODO add shutdown hook
+  public void removeYourself(){
+    this.instanceRepository.deleteByHostname(Util.getHostName());
+  }
 
   public void saveNewInstance(Instance instance){
     this.instanceRepository.save(instance);
