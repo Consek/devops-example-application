@@ -22,4 +22,24 @@ public class Instance implements Serializable {
     this.isProxy = false;
     this.isActive = false;
   }
+
+  public String getHostname() {
+    return hostname;
+  }
+
+  public String getVersion() {
+    return version;
+  }
+
+  public boolean isProxy() {
+    return isProxy;
+  }
+
+  public boolean isActive() {
+    return isActive;
+  }
+
+  public void setActive(boolean active) {
+    isActive = active;
+  }
 }

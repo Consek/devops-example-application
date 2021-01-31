@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.data.Instance;
-import com.example.backend.Util;
-import com.example.backend.data.RedisService;
+import com.example.backend.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

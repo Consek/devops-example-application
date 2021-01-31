@@ -1,12 +1,12 @@
-package com.example.backend.data;
+package com.example.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.backend.helpers.Util;
+import com.example.backend.data.Instance;
+import com.example.backend.data.InstanceRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
-import com.example.backend.Util;
 
 @Service
 public class RedisService {
@@ -19,12 +19,11 @@ public class RedisService {
   }
 
   public List<Instance> getInstances(){
-    return this.instanceRepository.findAll();
+    List<Instance> allInstances = this.instanceRepository.findAll();
+    markMyselfAsActive(allInstances);
+    return allInstances;
   }
-  //TODO
-  public void markMyselfAsActive(){
-  }
-  //TODO add shutdown hook
+
   public void removeYourself(){
     this.instanceRepository.deleteByHostname(Util.getHostName());
   }
@@ -34,8 +33,14 @@ public class RedisService {
   }
 
   @PostConstruct()
-  public void loadTestData(){
+  public void registerMyself(){
     Instance instance = new Instance(Util.getHostName() , "v3");
     this.instanceRepository.save(instance);
+  }
+
+  private void markMyselfAsActive(List<Instance> allInstances){
+    allInstances.stream().filter(elem -> elem.getHostname().equals(Util.getHostName()))
+        .findFirst().ifPresent(elem -> elem.setActive(true));
+
   }
 }

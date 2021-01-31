@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.helpers;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
