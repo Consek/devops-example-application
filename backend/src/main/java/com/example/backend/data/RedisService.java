@@ -6,18 +6,22 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@Service
+//@Service
 public class RedisService {
 
   private final InstanceRepository instanceRepository;
 
-  @Autowired
+
   public RedisService(InstanceRepository instanceRepository) {
     this.instanceRepository = instanceRepository;
   }
 
   public List<Instance> getInstances(){
     return this.instanceRepository.findAll();
+  }
+
+  public void saveNewInstance(Instance instance){
+    this.instanceRepository.save(instance);
   }
 
   @PostConstruct()

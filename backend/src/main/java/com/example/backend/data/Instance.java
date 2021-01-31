@@ -7,9 +7,12 @@ import java.io.Serializable;
 @RedisHash("Instance")
 public class Instance implements Serializable {
 
-  private final String id;
-  private final String hostname;
-  private final String version;
+  private  String id;
+  private  String hostname;
+  private  String version;
+
+  public Instance() {
+  }
 
   public Instance(String id, String hostname, String version) {
     this.id = id;

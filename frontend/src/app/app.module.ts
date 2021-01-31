@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router'
 
 import { StateComponent } from './state/state.component';
+import {WINDOW_PROVIDERS} from "./windowsProviders";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { StateComponent } from './state/state.component';
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    WINDOW_PROVIDERS
+  ],
   bootstrap: [AppComponent]
 })
 

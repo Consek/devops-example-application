@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {RestService} from "../rest.service";
+import {Component, Inject, OnInit} from '@angular/core';
+import {RestService, Details} from "../rest.service";
+import {WINDOW} from "../windowsProviders";
+import {AppDetailsComponent} from "../app-details/app-details.component";
+
 
 @Component({
   selector: 'state',
@@ -8,15 +11,24 @@ import {RestService} from "../rest.service";
 })
 export class StateComponent implements OnInit {
 
-  info: string;
+  fronts = [];
 
-  constructor(private rest: RestService) { }
+  sidename = 'front';
+
+  constructor(private rest: RestService, @Inject(WINDOW) private window: Window) { }
 
   ngOnInit(): void {
 
-     this.rest.getInstance().subscribe((resp: any) => {
-       this.info = resp.hostname;
-     });
+     this.rest.postInstance({hostname: 'host', version: '1', id: '15'}).subscribe()
+
   }
 
+  getInstances() {
+    this.rest.getInstances().subscribe((resp: Details[]) => {
+      resp.forEach(elem => {
+        console.log(elem.hostname);
+        this.fronts.push(elem);
+      })
+    });
+  }
 }

@@ -1,2 +1,10 @@
-<p>main works!</p>
-<p>{{info}}</p>
+<div>
+  <button (click)="getInstances()" >Get data</button>
+</div>
+
+<div class="front-column" *ngFor="let item of fronts">
+  <app-app-details
+  [appName]="item.hostname"
+  [appSide]="sidename"></app-app-details>
+
+</div>

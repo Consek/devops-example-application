@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
-  frontApps = Array
 }
 
-interface Details {
-  appName: string;
-  appSide: string;
-}
