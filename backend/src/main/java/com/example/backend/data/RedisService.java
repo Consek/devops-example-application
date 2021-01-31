@@ -21,6 +21,9 @@ public class RedisService {
   public List<Instance> getInstances(){
     return this.instanceRepository.findAll();
   }
+  //TODO
+  public void markMyselfAsActive(){
+  }
 
   public void saveNewInstance(Instance instance){
     this.instanceRepository.save(instance);

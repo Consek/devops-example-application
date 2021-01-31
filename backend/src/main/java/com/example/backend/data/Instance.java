@@ -10,6 +10,8 @@ public class Instance implements Serializable {
   @Id()
   private  String hostname;
   private  String version;
+  private  boolean isProxy;
+  private  boolean isActive;
 
   public Instance() {
   }
@@ -17,13 +19,7 @@ public class Instance implements Serializable {
   public Instance(String hostname, String version) {
     this.hostname = hostname;
     this.version = version;
-  }
-
-  public String gethostname() {
-    return hostname;
-  }
-
-  public String getversion() {
-    return version;
+    this.isProxy = false;
+    this.isActive = false;
   }
 }
