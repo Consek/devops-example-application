@@ -34,7 +34,7 @@ public class RedisService {
 
   @PostConstruct()
   public void registerMyself(){
-    Instance instance = new Instance(Util.getHostName() , "v3");
+    Instance instance = Instance.creteDefaultInstance(Util.getHostName() , "v3");
     this.instanceRepository.save(instance);
   }
 

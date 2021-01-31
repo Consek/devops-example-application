@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @RedisHash("Instance")
 public class Instance implements Serializable {
+
   @Id()
   private  String hostname;
   private  String version;
@@ -16,12 +17,13 @@ public class Instance implements Serializable {
   public Instance() {
   }
 
-  public Instance(String hostname, String version) {
+  public Instance(String hostname, String version, boolean isProxy, boolean isActive) {
     this.hostname = hostname;
     this.version = version;
-    this.isProxy = false;
-    this.isActive = false;
+    this.isProxy = isProxy;
+    this.isActive = isActive;
   }
+
 
   public String getHostname() {
     return hostname;
@@ -31,15 +33,19 @@ public class Instance implements Serializable {
     return version;
   }
 
-  public boolean isProxy() {
+  public boolean getIsProxy() {
     return isProxy;
   }
 
-  public boolean isActive() {
+  public boolean getIsActive() {
     return isActive;
   }
 
   public void setActive(boolean active) {
     isActive = active;
+  }
+
+  public static Instance creteDefaultInstance(String hostname, String version){
+    return new Instance(hostname, version, false, false);
   }
 }
