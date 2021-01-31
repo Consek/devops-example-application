@@ -1,10 +1,27 @@
 <div>
-  <button (click)="getInstances()" >Get data</button>
+  <button (click)="refreshData()" >Get data</button>
 </div>
 
-<div class="front-column" *ngFor="let item of fronts">
-  <app-app-details
-  [appName]="item.hostname"
-  [appSide]="sidename"></app-app-details>
 
+
+<div class='page-wrapper'>
+  <div class='row'>
+    <div class='column'>
+      <p>Backends</p>
+      <div class="backend-column" *ngFor="let item of backends">
+        <app-detail-backend
+          [appName]="item.hostname">
+        </app-detail-backend>
+      </div>
+    </div>
+    <div class='column'>
+      <p>Proxies</p>
+      <div class="proxies-column" *ngFor="let item of proxies">
+        <app-details-proxy
+          [appName]="item.hostname">
+        </app-details-proxy>
+      </div>
+    </div>
+  </div>
 </div>
+

@@ -1,31 +1,25 @@
-import {Inject, NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { FrontColumnComponent } from './front-column/front-column.component';
-import { BackColumnComponent } from './back-column/back-column.component';
-import { AppDetailsComponent } from './app-details/app-details.component';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router'
+import {AppComponent} from './app.component';
+import {HttpClientModule} from '@angular/common/http';
 
-import { StateComponent } from './state/state.component';
-import {WINDOW_PROVIDERS} from "./windowsProviders";
+import {StateComponent} from './state/state.component';
+import { DetailBackendComponent } from './detail-backend/detail-backend.component';
+import { DetailsProxyComponent } from './details-proxy/details-proxy.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FrontColumnComponent,
-    BackColumnComponent,
-    AppDetailsComponent,
-    StateComponent
+    StateComponent,
+    DetailBackendComponent,
+    DetailsProxyComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [
-    WINDOW_PROVIDERS
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 

@@ -1,34 +1,66 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {RestService, Details} from "../rest.service";
-import {WINDOW} from "../windowsProviders";
-import {AppDetailsComponent} from "../app-details/app-details.component";
+import {Instance, RestService} from "../rest.service";
+import {DOCUMENT} from "@angular/common";
+import 'leader-line';
 
+declare let LeaderLine: any;
 
 @Component({
   selector: 'state',
   templateUrl: './state.component.html',
-  styleUrls: ['./statecomponent.css']
+  styleUrls: ['./state.component.css']
 })
 export class StateComponent implements OnInit {
 
-  fronts = [];
+  backends = [];
 
-  sidename = 'front';
+  proxies = [];
 
-  constructor(private rest: RestService, @Inject(WINDOW) private window: Window) { }
+  start: string;
+
+  end: string;
+
+  constructor(private rest: RestService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
 
-     this.rest.postInstance({hostname: 'host', version: '1', id: '15'}).subscribe()
-
+    this.getInstances();
+    this.drawActiveLine();
   }
 
   getInstances() {
-    this.rest.getInstances().subscribe((resp: Details[]) => {
+
+    this.rest.getInstances().subscribe((resp: Instance[]) => {
       resp.forEach(elem => {
-        console.log(elem.hostname);
-        this.fronts.push(elem);
+        if(elem.isProxy){
+          this.proxies.push(elem);
+          if(elem.isActive){
+            this.end = elem.hostname;
+          }
+        }else {
+          this.backends.push(elem);
+          if(elem.isActive){
+            this.start = elem.hostname;
+          }
+        }
       })
     });
+    console.log(this.start)
+    console.log(this.end)
+  }
+
+  refreshData() {
+    this.proxies = [];
+    this.backends = [];
+    this.getInstances();
+    this.drawActiveLine();
+
+  }
+
+  drawActiveLine(): void {
+    if(this.start && this.end){
+      new LeaderLine(document.getElementById(this.start).querySelector("backend-elem"),
+        document.getElementById(this.end).querySelector("proxy-elem"))
+    }
   }
 }
