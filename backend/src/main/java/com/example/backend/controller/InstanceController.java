@@ -31,4 +31,10 @@ public class InstanceController {
     return ResponseEntity.ok().build();
 
   }
+
+  @DeleteMapping("/instances")
+  public ResponseEntity<String> clearRedis(){
+    this.redisService.clearCache();
+    return ResponseEntity.ok().build();
+  }
 }

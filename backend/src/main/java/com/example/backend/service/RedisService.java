@@ -43,4 +43,8 @@ public class RedisService {
         .findFirst().ifPresent(elem -> elem.setActive(true));
 
   }
+
+  public void clearCache() {
+    this.instanceRepository.deleteAll();
+  }
 }

@@ -11,4 +11,5 @@ public interface InstanceRepository extends CrudRepository<Instance, String> {
 
   List<Instance> findAll();
   void deleteByHostname(String hostname);
+  void deleteAll();
 }
