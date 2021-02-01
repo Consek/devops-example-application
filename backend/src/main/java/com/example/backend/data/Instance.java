@@ -37,6 +37,10 @@ public class Instance implements Serializable {
     return isProxy;
   }
 
+  public void setProxy(boolean proxy) {
+    isProxy = proxy;
+  }
+
   public boolean getIsActive() {
     return isActive;
   }
