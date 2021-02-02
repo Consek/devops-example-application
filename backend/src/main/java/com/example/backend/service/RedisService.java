@@ -28,6 +28,10 @@ public class RedisService {
     this.instanceRepository.deleteByHostname(Util.getHostName());
   }
 
+  public void removeInstance(String hostname){
+    this.instanceRepository.deleteByHostname(hostname);
+  }
+
   public void saveNewInstance(Instance instance){
     this.instanceRepository.save(instance);
   }

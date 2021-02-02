@@ -32,6 +32,12 @@ public class InstanceController {
 
   }
 
+  @DeleteMapping("/instance/{hostname}")
+  public ResponseEntity<String> deleteInstance(@PathVariable String hostname){
+    this.redisService.removeInstance(hostname);
+    return ResponseEntity.ok().build();
+  }
+
   @DeleteMapping("/instances")
   public ResponseEntity<String> clearRedis(){
     this.redisService.clearCache();
