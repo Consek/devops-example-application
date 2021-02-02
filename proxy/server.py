@@ -5,12 +5,17 @@ from tornado import gen
 import socket
 import requests
 import atexit
+import os
+
+target_host = os.getenv('TARGET_HOST', 'localhost')
+target_port = os.getenv('TARGET_PORT', '8080')
+
 
 class MainHandler(tornado.web.RequestHandler):
 
     @gen.coroutine
     def get(self):
-        resp = yield AsyncHTTPClient().fetch("http://localhost:8080/instances")
+        resp = yield AsyncHTTPClient().fetch("http://{}:{}/instances".format(target_host, target_port))
         self.set_status(resp.code)
         self.add_header('Content-Type', 'application/json')
         self.write(resp.body)
@@ -23,7 +28,7 @@ def register():
         "active": False,
         "proxy": True
     }
-    response = requests.post('http://localhost:8080/instance', json=post_data)
+    response = requests.post('http://{}:{}/instance'.format(target_host, target_port), json=post_data)
     if response.status_code == 200:
         print("Registered current instance")
     else:

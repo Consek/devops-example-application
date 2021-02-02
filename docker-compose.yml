@@ -1,9 +1,17 @@
-version: '3'
+version: '3.6'
 services:
   frontend:
     build: ./frontend
     ports:
      - "8000:80"
+
+  proxy:
+    build: ./proxy
+    environment: 
+     - TARGET_HOST=backend
+     - TARGET_PORT=8080
+    ports:
+     - "8888:8888"
 
   backend:
     build: ./backend
