@@ -6,9 +6,21 @@ import socket
 import requests
 import atexit
 import os
+import json
+import time
 
 target_host = os.getenv('TARGET_HOST', 'localhost')
 target_port = os.getenv('TARGET_PORT', '8080')
+hostname = socket.gethostname()
+
+def mark_me_active(body):
+    body_json = json.loads(body)
+    return_json = []
+    for x in body_json:
+        if x["hostname"] == hostname:
+            x["isActive"] = True
+        return_json.append(x)
+    return json.dumps(body_json)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -17,13 +29,12 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         resp = yield AsyncHTTPClient().fetch("http://{}:{}/instances".format(target_host, target_port))
         self.set_status(resp.code)
-        self.write(resp.body)
+        self.write(mark_me_active(resp.body))
         self.clear_header('Content-Type')
         self.add_header('Content-Type', 'application/json')
         self.add_header('Access-Control-Allow-Origin', '*')
 
 def register():
-    hostname = socket.gethostname()
     post_data = {
         "hostname": hostname,
         "version": "v1",
@@ -35,7 +46,8 @@ def register():
         print("Registered current instance")
     else:
         print("Error registering instance")
-        exit(1)
+        time.sleep(1)
+        register()
 
 def cleanup():
     print("Exit Python application")
