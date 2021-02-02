@@ -46,8 +46,7 @@ def register():
         print("Registered current instance")
     else:
         print("Error registering instance")
-        time.sleep(1)
-        register()
+        exit(1)
 
 def cleanup():
     print("Exit Python application")
