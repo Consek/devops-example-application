@@ -35,12 +35,12 @@ export class StateComponent implements OnInit {
         if(elem.isProxy){
           this.proxies.push(elem);
           if(elem.isActive){
-            this.end = elem.hostname;
+            this.start = elem.hostname;
           }
         }else {
           this.backends.push(elem);
           if(elem.isActive){
-            this.start = elem.hostname;
+            this.end = elem.hostname;
           }
         }
       })
