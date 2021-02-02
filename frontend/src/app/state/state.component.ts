@@ -59,8 +59,8 @@ export class StateComponent implements OnInit {
 
   drawActiveLine(): void {
     if(this.start && this.end){
-      new LeaderLine(document.getElementById(this.start).querySelector("backend-elem"),
-        document.getElementById(this.end).querySelector("proxy-elem"))
+      new LeaderLine(document.getElementById(this.start),
+        document.getElementById(this.end))
     }
   }
 }
