@@ -17,8 +17,10 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         resp = yield AsyncHTTPClient().fetch("http://{}:{}/instances".format(target_host, target_port))
         self.set_status(resp.code)
-        self.add_header('Content-Type', 'application/json')
         self.write(resp.body)
+        self.clear_header('Content-Type')
+        self.add_header('Content-Type', 'application/json')
+        self.add_header('Access-Control-Allow-Origin', '*')
 
 def register():
     hostname = socket.gethostname()
