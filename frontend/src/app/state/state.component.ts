@@ -45,13 +45,13 @@ export class StateComponent implements OnInit {
         }
       })
     });
-    console.log(this.start)
-    console.log(this.end)
   }
 
   refreshData() {
     this.proxies = [];
     this.backends = [];
+    this.end = undefined;
+    this.start = undefined;
     this.getInstances();
     this.drawActiveLine();
 

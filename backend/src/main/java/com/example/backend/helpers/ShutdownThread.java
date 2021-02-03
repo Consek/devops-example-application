@@ -16,6 +16,6 @@ public class ShutdownThread extends Thread {
   @Override
   public void run() {
     System.out.println("shutdown");
-    this.instanceRepository.deleteByHostname(Util.getHostName());
+    this.instanceRepository.deleteById(Util.getHostName());
   }
 }
