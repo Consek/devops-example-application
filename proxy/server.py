@@ -7,6 +7,7 @@ import requests
 import atexit
 import os
 import json
+import signal
 import time
 
 target_host = os.getenv('TARGET_HOST', 'localhost')
@@ -49,9 +50,12 @@ def register():
         exit(1)
 
 def cleanup():
+    print("Removing myself form cache")
+    requests.delete('http://{}:{}/instance/{}'.format(target_host, target_port, hostname))
     print("Exit Python application")
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, cleanup)
     atexit.register(cleanup)
     register()
     application = tornado.web.Application([
