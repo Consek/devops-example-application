@@ -2,15 +2,17 @@ package com.example.backend.helpers;
 
 import com.example.backend.data.InstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ShutdownThread extends Thread {
 
-  @Autowired
+
   private InstanceRepository instanceRepository;
 
 
-  public ShutdownThread() {
+  public ShutdownThread(InstanceRepository instanceRepository) {
+    this.instanceRepository = instanceRepository;
   }
 
   @Override

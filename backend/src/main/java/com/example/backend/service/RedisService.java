@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.helpers.ShutdownThread;
 import com.example.backend.helpers.Util;
 import com.example.backend.data.Instance;
 import com.example.backend.data.InstanceRepository;
@@ -12,10 +13,12 @@ import java.util.List;
 public class RedisService {
 
   private final InstanceRepository instanceRepository;
+  private final ShutdownThread shutdownThread;
 
 
-  public RedisService(InstanceRepository instanceRepository) {
+  public RedisService(InstanceRepository instanceRepository, ShutdownThread shutdownThread) {
     this.instanceRepository = instanceRepository;
+    this.shutdownThread = shutdownThread;
   }
 
   public List<Instance> getInstances(){
@@ -40,6 +43,8 @@ public class RedisService {
   public void registerMyself(){
     Instance instance = Instance.creteDefaultInstance(Util.getHostName() , "v3");
     this.instanceRepository.save(instance);
+
+    Runtime.getRuntime().addShutdownHook(this.shutdownThread);
   }
 
   private void markMyselfAsActive(List<Instance> allInstances){
