@@ -25,42 +25,49 @@ export class StateComponent implements OnInit {
   ngOnInit(): void {
 
     this.getInstances();
-    this.drawActiveLine();
+
   }
 
-  getInstances() {
+  getInstances() { 
+
+    var end = '';
+    var start = '';
 
     this.rest.getInstances().subscribe((resp: Instance[]) => {
       resp.forEach(elem => {
         if(elem.isProxy){
           this.proxies.push(elem);
           if(elem.isActive){
-            this.start = elem.hostname;
+            start = elem.hostname;
+            if(end){
+              new LeaderLine(document.getElementById(start),
+                  document.getElementById(end))
+            }
           }
         }else {
           this.backends.push(elem);
           if(elem.isActive){
-            this.end = elem.hostname;
+            end = elem.hostname;
+            if(start){
+              new LeaderLine(document.getElementById(start),
+              document.getElementById(end))
+            }
           }
         }
-      })
+      }
+     
+      
+      )
     });
+    
   }
 
   refreshData() {
     this.proxies = [];
     this.backends = [];
-    this.end = undefined;
-    this.start = undefined;
     this.getInstances();
-    this.drawActiveLine();
 
   }
 
-  drawActiveLine(): void {
-    if(this.start && this.end){
-      new LeaderLine(document.getElementById(this.start),
-        document.getElementById(this.end))
-    }
-  }
+
 }
