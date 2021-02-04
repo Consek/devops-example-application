@@ -28,6 +28,7 @@ public class RedisService {
   }
 
   public void removeYourself(){
+    System.out.println("Removing myself from cache");
     this.instanceRepository.deleteById(Util.getHostName());
   }
 
@@ -41,6 +42,7 @@ public class RedisService {
 
   @PostConstruct()
   public void registerMyself(){
+    System.out.println("Registering my hostname");
     Instance instance = Instance.creteDefaultInstance(Util.getHostName() , "v3");
     this.instanceRepository.save(instance);
 

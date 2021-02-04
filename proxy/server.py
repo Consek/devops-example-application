@@ -9,10 +9,10 @@ import os
 import json
 import signal
 import time
+import uuid
 
-target_host = os.getenv('TARGET_HOST', 'localhost')
-target_port = os.getenv('TARGET_PORT', '8080')
-hostname = socket.gethostname()
+target_url = os.getenv('TARGET_URL', 'http://localhost:8080')
+hostname = uuid.uuid4().hex if socket.gethostname() == 'localhost' else socket.gethostname()
 
 def mark_me_active(body):
     body_json = json.loads(body)
@@ -28,7 +28,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     @gen.coroutine
     def get(self):
-        resp = yield AsyncHTTPClient().fetch("http://{}:{}/instances".format(target_host, target_port))
+        resp = yield AsyncHTTPClient().fetch("{}/instances".format(target_url))
         self.set_status(resp.code)
         self.write(mark_me_active(resp.body))
         self.clear_header('Content-Type')
@@ -42,7 +42,7 @@ def register():
         "active": False,
         "proxy": True
     }
-    response = requests.post('http://{}:{}/instance'.format(target_host, target_port), json=post_data)
+    response = requests.post('{}/instance'.format(target_url), json=post_data)
     if response.status_code == 200:
         print("Registered current instance")
     else:
@@ -51,7 +51,7 @@ def register():
 
 def cleanup():
     print("Removing myself form cache")
-    requests.delete('http://{}:{}/instance/{}'.format(target_host, target_port, hostname))
+    requests.delete('{}/instance/{}'.format(target_url, hostname))
     print("Exit Python application")
 
 if __name__ == "__main__":
@@ -61,5 +61,5 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/instances", MainHandler),
     ])
-    application.listen(8888)
+    application.listen(os.getenv('PORT', '8888'))
     tornado.ioloop.IOLoop.instance().start()
