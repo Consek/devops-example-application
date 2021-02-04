@@ -46,20 +46,4 @@ export class StateComponent implements OnInit {
     });
     
   }
-
-  // showConnection(){
-  //   if(this.start && this.end){
-  //     new LeaderLine(document.getElementById(this.start),
-  //     document.getElementById(this.end));
-  //   }
-  // }
-
-  // refreshData() {
-  //   this.proxies = [];
-  //   this.backends = [];
-  //   this.getInstances();
-
-  // }
-
-
 }
