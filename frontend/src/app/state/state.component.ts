@@ -20,6 +20,8 @@ export class StateComponent implements OnInit {
 
   end: string;
 
+  line: any;
+
   constructor(private rest: RestService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
@@ -51,7 +53,7 @@ export class StateComponent implements OnInit {
 
   showConnection(){
     if(this.start && this.end){
-      new LeaderLine(document.getElementById(this.start),
+      this.line = new LeaderLine(document.getElementById(this.start),
       document.getElementById(this.end));
     }
   }
@@ -59,6 +61,7 @@ export class StateComponent implements OnInit {
   refreshData() {
     this.proxies = [];
     this.backends = [];
+    this.line.remove();
     this.getInstances();
 
   }
