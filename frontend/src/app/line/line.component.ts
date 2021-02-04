@@ -23,7 +23,7 @@ export class LineComponent {
   mySubscription: Subscription
 
   constructor(@Inject(DOCUMENT) private document: Document) {
-    this.mySubscription= interval(1000).subscribe((x =>{
+    this.mySubscription= interval(300).subscribe((x =>{
       this.drawLine();
   }));
    }
