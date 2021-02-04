@@ -29,37 +29,31 @@ export class StateComponent implements OnInit {
   }
 
   getInstances() { 
-
-    var end = '';
-    var start = '';
-
     this.rest.getInstances().subscribe((resp: Instance[]) => {
       resp.forEach(elem => {
         if(elem.isProxy){
           this.proxies.push(elem);
           if(elem.isActive){
-            start = elem.hostname;
-            if(end){
-              new LeaderLine(document.getElementById(start),
-                  document.getElementById(end))
-            }
+            this.start = elem.hostname;
           }
         }else {
           this.backends.push(elem);
           if(elem.isActive){
-            end = elem.hostname;
-            if(start){
-              new LeaderLine(document.getElementById(start),
-              document.getElementById(end))
+            this.end = elem.hostname;
+            
             }
-          }
         }
       }
-     
-      
       )
     });
     
+  }
+
+  showConnection(){
+    if(this.start && this.end){
+      new LeaderLine(document.getElementById(this.start),
+      document.getElementById(this.end));
+    }
   }
 
   refreshData() {
