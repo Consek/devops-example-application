@@ -14,7 +14,7 @@
       <p>Proxies</p>
       <div class="proxies-column" *ngFor="let item of proxies">
         <app-details-proxy
-          [appName]="item.hostname">
+          [appName]="item.hostname" [isActive]="item.isActive">
         </app-details-proxy>
       </div>
     </div>
@@ -22,7 +22,7 @@
       <p>Backends</p>
       <div class="backend-column" *ngFor="let item of backends">
         <app-detail-backend
-          [appName]="item.hostname">
+          [appName]="item.hostname" [isActive]="item.isActive">
         </app-detail-backend>
       </div>
     </div>

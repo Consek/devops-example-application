@@ -9,7 +9,15 @@ export class DetailBackendComponent {
 
   @Input()
   appName: string;
+  @Input()
+  isActive: boolean;
+  color: string;
 
   constructor() { }
 
+  ngOnInit(): void {
+
+    this.color = this.isActive? "black": "green";
+
+  }
 }

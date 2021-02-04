@@ -9,7 +9,15 @@ export class DetailsProxyComponent  {
 
   @Input()
   appName: string;
+  @Input()
+  isActive: boolean;
+  color: string;
 
   constructor() { }
 
+  ngOnInit(): void {
+
+    this.color = this.isActive? "black": "blue";
+
+  }
 }
