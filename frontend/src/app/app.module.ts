@@ -7,13 +7,15 @@ import {HttpClientModule} from '@angular/common/http';
 import {StateComponent} from './state/state.component';
 import { DetailBackendComponent } from './detail-backend/detail-backend.component';
 import { DetailsProxyComponent } from './details-proxy/details-proxy.component';
+import { LineComponent } from './line/line.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StateComponent,
     DetailBackendComponent,
-    DetailsProxyComponent
+    DetailsProxyComponent,
+    LineComponent
   ],
   imports: [
     BrowserModule,

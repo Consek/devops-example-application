@@ -1,10 +1,10 @@
-<div>
+<!-- <div>
   <button (click)="refreshData()" >Get data</button>
 </div>
 
 <div>
   <button (click)="showConnection()" >Show connection</button>
-</div>
+</div> -->
 
 
 
@@ -20,12 +20,18 @@
     </div>
     <div class='column'>
       <p>Backends</p>
-      <div class="backend-column" *ngFor="let item of backends">
+      <div class="backend-column" *ngFor="let item of backends; let last = last">
         <app-detail-backend
           [appName]="item.hostname">
         </app-detail-backend>
+        <app-line *ngIf="last"
+          [start] ="start"
+          [end] = "end">
+        </app-line>
       </div>
     </div>
+
+    
   </div>
 </div>
 

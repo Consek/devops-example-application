@@ -10,6 +10,12 @@ export class DetailBackendComponent {
   @Input()
   appName: string;
 
+  @Input()
+  start: string;
+
+  @Input()
+  end: string;
+
   constructor() { }
 
 }

@@ -12,7 +12,7 @@ export class RestService {
   constructor(private http: HttpClient) {}
 
   getInstances(): Observable<Instance[]> {
-    let endpoint = '${BACKEND_URL}/instances'
+    let endpoint = 'http://localhost:8080/instances'
     return this.http.get<Instance[]>(endpoint).pipe(map(result => <Instance[]>result));
   }
 }

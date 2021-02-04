@@ -1,9 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {Instance, RestService} from "../rest.service";
-import {DOCUMENT} from "@angular/common";
-import 'leader-line';
 
-declare let LeaderLine: any;
 
 @Component({
   selector: 'state',
@@ -20,48 +17,37 @@ export class StateComponent implements OnInit {
 
   end: string;
 
-  constructor(private rest: RestService, @Inject(DOCUMENT) private document: Document) { }
+
+  constructor(private rest: RestService) { }
 
   ngOnInit(): void {
 
-    this.getInstances();
-
-  }
-
-  getInstances() { 
+    this.proxies = [];
+    this.backends = [];
+  
     this.rest.getInstances().subscribe((resp: Instance[]) => {
       resp.forEach(elem => {
         if(elem.isProxy){
           this.proxies.push(elem);
           if(elem.isActive){
             this.start = elem.hostname;
+            if(this.end !== ''){
+            
+            }
           }
         }else {
           this.backends.push(elem);
           if(elem.isActive){
             this.end = elem.hostname;
-            
             }
         }
       }
       )
     });
     
-  }
-
-  showConnection(){
-    if(this.start && this.end){
-      new LeaderLine(document.getElementById(this.start),
-      document.getElementById(this.end));
-    }
-  }
-
-  refreshData() {
-    this.proxies = [];
-    this.backends = [];
-    this.getInstances();
 
   }
+
 
 
 }
