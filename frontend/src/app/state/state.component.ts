@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Instance, RestService} from "../rest.service";
 
 
@@ -22,32 +22,44 @@ export class StateComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.proxies = [];
-    this.backends = [];
-  
+    this.getInstances();
+
+  }
+
+  getInstances() { 
     this.rest.getInstances().subscribe((resp: Instance[]) => {
       resp.forEach(elem => {
         if(elem.isProxy){
           this.proxies.push(elem);
           if(elem.isActive){
             this.start = elem.hostname;
-            if(this.end !== ''){
-            
-            }
           }
         }else {
           this.backends.push(elem);
           if(elem.isActive){
             this.end = elem.hostname;
+            
             }
         }
       }
       )
     });
     
-
   }
 
+  showConnection(){
+    if(this.start && this.end){
+      new LeaderLine(document.getElementById(this.start),
+      document.getElementById(this.end));
+    }
+  }
+
+  refreshData() {
+    this.proxies = [];
+    this.backends = [];
+    this.getInstances();
+
+  }
 
 
 }

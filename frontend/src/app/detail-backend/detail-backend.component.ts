@@ -9,6 +9,9 @@ export class DetailBackendComponent {
 
   @Input()
   appName: string;
+  @Input()
+  isActive: boolean;
+  color: string;
 
   @Input()
   start: string;
@@ -18,4 +21,9 @@ export class DetailBackendComponent {
 
   constructor() { }
 
+  ngOnInit(): void {
+
+    this.color = this.isActive? "black": "green";
+
+  }
 }
