@@ -9,15 +9,16 @@ services:
 
   proxy:
     build: ./proxy
+    hostname: localhost
     environment: 
-     - TARGET_HOST=backend
-     - TARGET_PORT=8080
+     - TARGET_URL=http://backend:8080
      - PYTHONUNBUFFERED=1
     ports:
      - "8888:8888"
 
   backend:
     build: ./backend
+    hostname: localhost
     ports:
      - "8080:8080"
 
