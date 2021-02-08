@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.httpclient import AsyncHTTPClient
 from tornado import gen
+from healthcheck import TornadoHandler, HealthCheck
 import socket
 import requests
 import atexit
@@ -54,12 +55,18 @@ def cleanup():
     requests.delete('{}/instance/{}'.format(target_url, hostname))
     print("Exit Python application")
 
+def is_ok():
+    return True, "application ok"
+
+health = HealthCheck(checkers=[is_ok])
+
 if __name__ == "__main__":
     signal.signal(signal.SIGTERM, cleanup)
     atexit.register(cleanup)
     register()
     application = tornado.web.Application([
-        (r"/instances", MainHandler),
+        ("/instances", MainHandler),
+        ("/healthcheck", TornadoHandler, dict(checker=health))
     ])
     application.listen(os.getenv('PORT', '8888'))
     tornado.ioloop.IOLoop.instance().start()
