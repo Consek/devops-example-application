@@ -19,6 +19,11 @@ public class InstanceController {
     this.redisService = redisService;
   }
 
+  @GetMapping("/healthcheck")
+  public String healthcheck() {
+    return "Application OK";
+  }
+
   @GetMapping("/instances")
   public List<Instance> instances() {
 
