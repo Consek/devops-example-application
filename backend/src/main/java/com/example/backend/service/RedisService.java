@@ -43,8 +43,11 @@ public class RedisService {
   @PostConstruct()
   public void registerMyself(){
     System.out.println("Registering my hostname");
-    Instance instance = Instance.creteDefaultInstance(Util.getHostName() , "v3");
+    String hostname = Util.getHostName();
+
+    Instance instance = Instance.creteDefaultInstance(hostname, "v3");
     this.instanceRepository.save(instance);
+    System.out.println(String.format("My hostname %s is registered", hostname));
 
     Runtime.getRuntime().addShutdownHook(this.shutdownThread);
   }

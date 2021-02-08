@@ -6,3 +6,5 @@ backend/target
 .idea
 /.idea
 package-lock.json
+
+.env
