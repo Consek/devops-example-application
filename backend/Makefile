@@ -12,7 +12,12 @@ endif
 gcp_build: gcp_check
 	gcloud builds submit --tag gcr.io/${PROJECT_ID}/backend
 
-gcp_cloud_run_deploy:
+gcp_deploy_check:
+ifndef REDIS_HOST
+	$(error REDIS_HOST is not set)
+endif
+
+gcp_cloud_run_deploy: gcp_deploy_check
 ifndef REDIS_HOST
 	$(error REDIS_HOST is not set)
 endif
@@ -22,4 +27,9 @@ endif
 		--vpc-connector=${VPC_CONNECTOR} \
 		--set-env-vars=REDIS_HOST=${REDIS_HOST} \
 		--concurrency=5
+
+gcp_app_engine_deploy: gcp_deploy_check gcp_check
+	envsubst '\$$REDIS_HOST' < "app.yaml" > "app.yaml.tmp"
+	mv "app.yaml.tmp" "app.yaml"
+	gcloud app deploy --image-url=gcr.io/${PROJECT_ID}/backend
 

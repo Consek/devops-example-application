@@ -1,0 +1,28 @@
+runtime: custom
+env: flex
+service: backend
+
+resources:
+  cpu: 1
+  memory_gb: 0.6
+
+manual_scaling:
+  instances: 1
+
+liveness_check:
+  path: "/healthcheck"
+  check_interval_sec: 30
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+
+readiness_check:
+  path: "/healthcheck"
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 300
+
+env_variables:
+  REDIS_HOST: ${REDIS_HOST}
