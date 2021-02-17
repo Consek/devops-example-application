@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import java.lang.System;
+
 @Service
 public class RedisService {
 
@@ -44,8 +46,9 @@ public class RedisService {
   public void registerMyself(){
     System.out.println("Registering my hostname");
     String hostname = Util.getHostName();
+    String version = System.getenv("APP_VERSION") != null ? System.getenv("APP_VERSION") : "notSet";
 
-    Instance instance = Instance.creteDefaultInstance(hostname, "v3");
+    Instance instance = Instance.creteDefaultInstance(hostname, version);
     this.instanceRepository.save(instance);
     System.out.println(String.format("My hostname %s is registered", hostname));
 

@@ -14,6 +14,7 @@ import uuid
 
 target_url = os.getenv('TARGET_URL', 'http://localhost:8080')
 hostname = uuid.uuid4().hex if socket.gethostname() == 'localhost' else socket.gethostname()
+version = os.getenv('APP_VERSION', 'notSet')
 
 def mark_me_active(body):
     body_json = json.loads(body)
@@ -39,7 +40,7 @@ class MainHandler(tornado.web.RequestHandler):
 def register():
     post_data = {
         "hostname": hostname,
-        "version": "v1",
+        "version": version,
         "active": False,
         "proxy": True
     }
