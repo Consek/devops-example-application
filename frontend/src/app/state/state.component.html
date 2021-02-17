@@ -1,6 +1,6 @@
-<div class='page-wrapper'>
+<div class='container'>
   <div class='row'>
-    <div class='column'>
+    <div class='col'>
       <p>Proxies</p>
       <div class="proxies-column" *ngFor="let item of proxies">
         <app-details-proxy
@@ -10,7 +10,9 @@
         </app-details-proxy>
       </div>
     </div>
-    <div class='column'>
+    <div class="col">
+    </div>
+    <div class='col'>
       <p>Backends</p>
       <div class="backend-column" *ngFor="let item of backends; let last = last">
         <app-detail-backend
