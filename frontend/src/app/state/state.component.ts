@@ -38,8 +38,7 @@ export class StateComponent implements OnInit {
           this.backends.push(elem);
           if(elem.isActive){
             this.end = elem.hostname;
-            
-            }
+          }
         }
       }
       )

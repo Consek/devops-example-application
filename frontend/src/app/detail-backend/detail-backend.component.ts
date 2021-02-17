@@ -11,6 +11,8 @@ export class DetailBackendComponent {
   appName: string;
   @Input()
   isActive: boolean;
+  @Input()
+  version: string;
   color: string;
 
   @Input()

@@ -11,6 +11,8 @@ export class DetailsProxyComponent  {
   appName: string;
   @Input()
   isActive: boolean;
+  @Input()
+  version: string;
   color: string;
 
   constructor() { }

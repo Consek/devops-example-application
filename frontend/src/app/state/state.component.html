@@ -4,7 +4,9 @@
       <p>Proxies</p>
       <div class="proxies-column" *ngFor="let item of proxies">
         <app-details-proxy
-          [appName]="item.hostname" [isActive]="item.isActive">
+          [appName]="item.hostname" 
+          [isActive]="item.isActive"
+          [version]="item.version">
         </app-details-proxy>
       </div>
     </div>
@@ -12,7 +14,9 @@
       <p>Backends</p>
       <div class="backend-column" *ngFor="let item of backends; let last = last">
         <app-detail-backend
-          [appName]="item.hostname" [isActive]="item.isActive">
+          [appName]="item.hostname" 
+          [isActive]="item.isActive"
+          [version]="item.version">
         </app-detail-backend>
         <app-line *ngIf="last"
           [start] ="start"
