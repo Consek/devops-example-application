@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import stc from 'string-to-color';
 
 @Component({
   selector: 'app-detail-backend',
@@ -14,6 +15,7 @@ export class DetailBackendComponent {
   @Input()
   version: string;
   color: string;
+  outerColor: string;
 
   @Input()
   start: string;
@@ -24,8 +26,8 @@ export class DetailBackendComponent {
   constructor() { }
 
   ngOnInit(): void {
-
-    this.color = this.isActive? "black": "green";
-
+    const color = stc(this.version);
+    this.outerColor = this.isActive? "black": color;
+    this.color = color;
   }
 }

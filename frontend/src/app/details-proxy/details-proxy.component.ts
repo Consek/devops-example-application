@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import stc from 'string-to-color';
 
 @Component({
   selector: 'app-details-proxy',
@@ -14,12 +15,13 @@ export class DetailsProxyComponent  {
   @Input()
   version: string;
   color: string;
+  outerColor: string;
 
   constructor() { }
 
   ngOnInit(): void {
-
-    this.color = this.isActive? "black": "blue";
-
+    const color = stc(this.version);
+    this.outerColor = this.isActive? "black": color;
+    this.color = color;
   }
 }
