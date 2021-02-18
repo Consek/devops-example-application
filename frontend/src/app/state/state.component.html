@@ -1,33 +1,26 @@
-<div class='container'>
-  <div class='row'>
-    <div class='col'>
-      <p>Proxies</p>
-      <div class="proxies-column" *ngFor="let item of proxies">
-        <app-details-proxy
-          [appName]="item.hostname" 
-          [isActive]="item.isActive"
-          [version]="item.version">
-        </app-details-proxy>
-      </div>
+<div class='row justify-content-between'>
+  <div class='col-4'>
+    <p>Proxies</p>
+    <div *ngFor="let item of proxies">
+      <app-details-proxy
+        [appName]="item.hostname" 
+        [isActive]="item.isActive"
+        [version]="item.version">
+      </app-details-proxy>
     </div>
-    <div class="col">
+  </div>
+  <div class='col-4'>
+    <p>Backends</p>
+    <div *ngFor="let item of backends; let last = last">
+      <app-detail-backend
+        [appName]="item.hostname" 
+        [isActive]="item.isActive"
+        [version]="item.version">
+      </app-detail-backend>
+      <app-line *ngIf="last"
+        [start] ="start"
+        [end] = "end">
+      </app-line>
     </div>
-    <div class='col'>
-      <p>Backends</p>
-      <div class="backend-column" *ngFor="let item of backends; let last = last">
-        <app-detail-backend
-          [appName]="item.hostname" 
-          [isActive]="item.isActive"
-          [version]="item.version">
-        </app-detail-backend>
-        <app-line *ngIf="last"
-          [start] ="start"
-          [end] = "end">
-        </app-line>
-      </div>
-    </div>
-
-    
   </div>
 </div>
-
