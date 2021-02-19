@@ -25,4 +25,5 @@ readiness_check:
   app_start_timeout_sec: 300
 
 env_variables:
-  REDIS_HOST: ${REDIS_HOST}
+  REDIS_HOST: 10.68.232.3
+  APP_VERSION: "red"

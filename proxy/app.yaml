@@ -25,4 +25,5 @@ readiness_check:
   app_start_timeout_sec: 300
 
 env_variables:
-  TARGET_URL: ${TARGET_URL}
+  TARGET_URL: https://backend-dot-katowanie.ew.r.appspot.com
+  APP_VERSION: "blue"

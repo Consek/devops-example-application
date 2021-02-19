@@ -14,7 +14,7 @@ endif
 run:
 	ng serve
 
-gcp_bucket_upload:
+gcp_bucket_upload: env_substitution
 ifndef BUCKET_NAME
 	$(error BUCKET_NAME is not set)
 endif
