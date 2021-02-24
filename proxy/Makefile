@@ -25,3 +25,19 @@ gcp_app_engine_deploy: gcp_deploy_check gcp_check
 	envsubst '\$$TARGET_URL' < "app.yaml" > "app.yaml.tmp"
 	mv "app.yaml.tmp" "app.yaml"
 	gcloud app deploy --image-url=gcr.io/${PROJECT_ID}/proxy
+
+gcp_compute_engine_template_creation:
+	gcloud compute instance-templates create-with-container proxy \
+		--container-env=TARGET_URL=${TARGET_URL} \
+		--container-image=gcr.io/${PROJECT_ID}/proxy:latest \
+		--description="Devops proxy instance" \
+		--machine-type=f1-micro \
+		--preemptible \
+		--tags=devops
+
+gcp_compute_engine_deploy:
+	gcloud compute instance-groups managed create proxy \
+		--base-instance-name proxy-vm \
+		--size 2 \
+		--template proxy
+

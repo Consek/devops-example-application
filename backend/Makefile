@@ -33,3 +33,17 @@ gcp_app_engine_deploy: gcp_deploy_check gcp_check
 	mv "app.yaml.tmp" "app.yaml"
 	gcloud app deploy --image-url=gcr.io/${PROJECT_ID}/backend
 
+gcp_compute_engine_template_creation:
+	gcloud compute instance-templates create-with-container backend \
+		--container-env=REDIS_HOST=${REDIS_HOST} \
+		--container-image=gcr.io/${PROJECT_ID}/backend:latest \
+		--description="Devops backend instance" \
+		--machine-type=f1-micro \
+		--preemptible \
+		--tags=devops
+
+gcp_compute_engine_deploy:
+	gcloud compute instance-groups managed create backend \
+		--base-instance-name backend-vm \
+		--size 3 \
+		--template backend 
