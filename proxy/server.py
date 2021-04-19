@@ -13,7 +13,7 @@ import time
 import uuid
 
 target_url = os.getenv('TARGET_URL', 'http://localhost:8080')
-hostname = uuid.uuid4().hex if socket.gethostname() == 'localhost' else socket.gethostname()
+hostname = "PROXY" #uuid.uuid4().hex if socket.gethostname() == 'localhost' else socket.gethostname()
 version = os.getenv('APP_VERSION', 'notSet')
 
 def mark_me_active(body):
