@@ -1,0 +1,33 @@
+version: '7.0'
+
+environment:
+  WORK_DIR: /app/
+
+compose:
+  files:
+    - docker-compose.yml
+  project_name: docker-example-aplication
+
+interaction:
+  proxy-build:
+    description: Builds proxy
+    service: proxy
+    command: pip install -r requirements.txt
+  backend-build:
+    description: Builds backend
+    service: backend
+    command: mvn clean package
+  frontend-npm:
+    description: Builds frontend
+    service: frontend
+    command: npm
+  frontend-shell:
+    description: Builds frontend
+    service: frontend
+    command: sh
+
+provision:
+  - dip proxy-build
+  - dip backend-build
+  - dip frontend-npm install
+  - dip frontend-npm run build

@@ -1,0 +1,18 @@
+version: '3.6'
+services:
+  proxy:
+    image: python:3.9.1-slim
+    volumes:
+      - ../proxy:/app
+    working_dir: /app
+  backend:
+    image: maven:3.6.3-jdk-11-slim
+    volumes:
+      - ../backend:/app
+      - /root/.m2:/root/.m2
+    working_dir: /app
+  frontend:
+    image: node:15.7.0-alpine
+    volumes:
+      - ../frontend:/app
+    working_dir: /app

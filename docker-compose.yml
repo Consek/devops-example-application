@@ -1,5 +1,6 @@
 version: '3.6'
 services:
+
   frontend:
     build: ./frontend
     environment: 
@@ -16,14 +17,23 @@ services:
     ports:
      - "8888:8888"
 
+  proxy2:
+    build: ./proxy
+    environment: 
+     - TARGET_URL=http://backend:8080
+     - PYTHONUNBUFFERED=1
+     - APP_VERSION=pink
+
   backend:
     build: ./backend
     environment: 
      - APP_VERSION=red
-    ports:
-     - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 4
 
   redis:
     image: redis
     ports:
      - "6379:6379"
+     
