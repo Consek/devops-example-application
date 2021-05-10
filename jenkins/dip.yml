@@ -13,5 +13,5 @@ interaction:
 
 provision:
   - mkdir -p ~/jenkins
-  - chown 1000:1000 -R ~/jenkins
+  - sudo chown 1000:1000 -R ~/jenkins
   - dip compose up -d
