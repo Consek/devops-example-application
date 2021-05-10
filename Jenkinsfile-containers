@@ -1,0 +1,48 @@
+pipeline {
+  agent none
+
+  stages {
+    stage('build') {
+      parallel {
+        stage('proxy') {
+          agent {
+            docker {
+              image 'python:3.9.1-slim'
+              args  '-u root'
+            }
+          }
+          steps {
+            sh '''cd proxy
+            pip install -r requirements.txt
+            '''
+          }
+        }
+        stage('backend') {
+          agent {
+            docker {
+              image 'maven:3.6.3-jdk-11-slim'
+            }
+          }
+          steps {
+            sh '''cd backend
+            mvn clean package
+            '''
+          }
+        }
+        stage('frontend') {
+          agent {
+            docker {
+              image 'node:15.7.0-alpine'
+            }
+          }
+          steps {
+            sh '''cd frontend
+            npm install
+            npm run build
+            '''
+          }
+        }
+      }
+    }
+  }
+}
