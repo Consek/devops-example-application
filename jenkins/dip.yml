@@ -1,0 +1,17 @@
+version: '7.0'
+
+compose:
+  files:
+    - docker-compose.yml
+  project_name: jenkins
+
+interaction:
+  shell:
+    description: Opens shell in Jenkins new container for testing
+    service: jenkins
+    command: bash
+
+provision:
+  - mkdir -p ~/jenkins
+  - chown 1000:1000 -R ~/jenkins
+  - dip compose up -d
