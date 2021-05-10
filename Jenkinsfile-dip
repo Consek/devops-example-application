@@ -1,0 +1,31 @@
+pipeline{
+  agent any
+
+  stages{
+    stage("build"){
+      parallel{
+        stage("proxy"){
+          steps{
+            sh '''cd dip
+            dip proxy - build
+            '''
+          }
+        }
+        stage("backend"){
+          steps{
+            sh '''cd dip
+            dip backend - build
+            '''
+          }
+        }
+        stage("frontend"){
+          steps{
+            sh '''cd dip
+            dip frontend - build
+            '''
+          }
+        }
+      }
+    }
+  }
+}
