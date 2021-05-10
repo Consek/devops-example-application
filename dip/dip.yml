@@ -1,4 +1,4 @@
-version: '7.0'
+version: '7.1'
 
 environment:
   WORK_DIR: /app/
@@ -17,10 +17,11 @@ interaction:
     description: Builds backend
     service: backend
     command: mvn clean package
-  frontend-npm:
+  frontend-build:
     description: Builds frontend
     service: frontend
-    command: npm
+    command: sh -c 'npm install && npm run build'
+    shell: false
   frontend-shell:
     description: Builds frontend
     service: frontend
@@ -29,5 +30,4 @@ interaction:
 provision:
   - dip proxy-build
   - dip backend-build
-  - dip frontend-npm install
-  - dip frontend-npm run build
+  - dip frontend-build
