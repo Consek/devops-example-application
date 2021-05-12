@@ -7,21 +7,21 @@ pipeline{
         stage("proxy"){
           steps{
             sh '''cd dip
-            dip proxy - build
+            dip proxy-build
             '''
           }
         }
         stage("backend"){
           steps{
             sh '''cd dip
-            dip backend - build
+            dip backend-build
             '''
           }
         }
         stage("frontend"){
           steps{
             sh '''cd dip
-            dip frontend - build
+            dip frontend-build
             '''
           }
         }
