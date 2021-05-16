@@ -1,0 +1,64 @@
+name: Build DevOps Example Application
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '15'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: devops-node-v2-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            devops-node-v2-
+      - name: Download dependencies
+        run: npm ci
+      - name: Build angular project
+        run: npm run build
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          check-latest: true
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: devops-mvn-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            devops-mvn-
+      - name: Build maven project
+        run: mvn clean package
+  proxy:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.9.4-slim
+    defaults:
+      run:
+        working-directory: proxy
+    steps:
+      - uses: actions/checkout@v1
+      - run: pip install -r requirements.txt
