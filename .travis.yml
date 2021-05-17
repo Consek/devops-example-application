@@ -1,0 +1,30 @@
+if: branch = master
+
+jobs:
+  include:
+    - stage: proxy
+      language: python
+      dist: focal
+      python: 3.9
+      before_install:
+        - cd proxy
+      script:
+        - echo "All Done!"
+
+    - stage: backend build
+      language: java
+      dist: focal
+      jdk: openjdk11
+      before_install:
+        - cd backend
+      script:
+        - ./mvnw clean verify
+
+    - stage: frontend build
+      language: node_js
+      node_js:
+        - 15
+      before_install:
+        - cd frontend
+      script:
+        - npm run build
