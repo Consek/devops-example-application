@@ -3,6 +3,12 @@ backend/target
 ### VS Code ###
 .vscode/
 
+.terraform
+terraform.tfstate*
+
+hetzner_ssh_key
+jenkins_password
+
 .idea
 /.idea
 
