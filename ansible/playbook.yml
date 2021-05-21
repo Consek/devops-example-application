@@ -1,0 +1,37 @@
+- hosts: all
+  roles:
+    - geerlingguy.docker
+
+- hosts: jenkins
+  vars:
+    jenkins_hostname: jenkins.katujemy.kacik.it
+    java_packages:
+      - openjdk-11-jdk
+    jenkins_plugins:
+      - blueocean
+      - docker-workflow
+    jenkins_admin_password: "{{ lookup('file', 'jenkins_password') }}"
+
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+  tasks:
+    - name: adding jenkins user to group docker
+      user:
+        name: jenkins
+        groups: [docker, sudo]
+        append: yes
+    - name: create ssh directory
+      file:
+        path: /var/lib/jenkins/.ssh
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: 0700
+    - name: copy ssh key for nodes
+      copy:
+        src: ../terraform/hetzner_ssh_key
+        dest: /var/lib/jenkins/.ssh/id_rsa
+        owner: jenkins
+        group: jenkins
+        mode: 0400
