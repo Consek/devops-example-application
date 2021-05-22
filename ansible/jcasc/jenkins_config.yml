@@ -1,0 +1,21 @@
+jenkins:
+  systemMessage: "Controlled by Configuration as Code"
+jobs:
+  - script: >
+     multibranchPipelineJob('devops-deployment-pipeline') {
+          description = "Deploys example DevOps application"
+          branchSources {
+              git {
+                  id = 'main'
+                  remote('https://github.com/Consek/devops-example-application.git')
+              }
+          }
+          factory {
+              workflowBranchProjectFactory {
+                  scriptPath('Jenkinsfile-deployment')
+              }
+          }
+      }
+unclassified:
+  location:
+    url: http://jenkins.katujemy.kacik.it:8080/

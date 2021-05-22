@@ -1,3 +1,4 @@
 - src: geerlingguy.docker
 - src: geerlingguy.java
 - src: geerlingguy.jenkins
+- src: wcm_io_devops.jenkins_configuration_as_code
