@@ -6,21 +6,21 @@ pipeline{
       parallel{
         stage("proxy"){
           steps{
-            sh '''cd dip
+            sh '''cd .build
             dip proxy-build
             '''
           }
         }
         stage("backend"){
           steps{
-            sh '''cd dip
+            sh '''cd .build
             dip backend-build
             '''
           }
         }
         stage("frontend"){
           steps{
-            sh '''cd dip
+            sh '''cd .build
             dip frontend-build
             '''
           }
