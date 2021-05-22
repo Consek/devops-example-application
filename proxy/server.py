@@ -2,6 +2,7 @@ import tornado.ioloop
 import tornado.web
 from tornado.httpclient import AsyncHTTPClient
 from tornado import gen
+from tornado import httpserver
 from healthcheck import TornadoHandler, HealthCheck
 import socket
 import requests
@@ -69,5 +70,6 @@ if __name__ == "__main__":
         ("/instances", MainHandler),
         ("/healthcheck", TornadoHandler, dict(checker=health))
     ])
-    application.listen(os.getenv('PORT', '8888'))
+    http_server = httpserver.HTTPServer(application, no_keep_alive = True)
+    http_server.listen(os.getenv('PORT', '8888'))
     tornado.ioloop.IOLoop.instance().start()
