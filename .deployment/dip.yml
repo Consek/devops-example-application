@@ -14,7 +14,7 @@ interaction:
 
 provision:
   - dip build
-  - dip up -d redis
-  - dip up -d backend
+  - dip compose --compatibility up -d redis
+  - dip compose --compatibility up -d backend
   - dip backend_wait
-  - dip up -d
+  - dip compose --compatibility up -d
