@@ -1,0 +1,37 @@
+version: '3.6'
+services:
+
+  frontend:
+    build: ../frontend
+    environment: 
+     - BACKEND_URL=http://localhost:8888
+    ports:
+     - "8000:80"
+
+  caddy:
+    image: caddy:2.3.0
+    command: caddy reverse-proxy --from :8888 --to proxy:8888
+    ports:
+      - "8888:8888"
+
+  proxy:
+    build: ../proxy
+    environment: 
+     - TARGET_URL=http://backend:8080
+     - PYTHONUNBUFFERED=1
+     - APP_VERSION=green
+    deploy:
+      mode: replicated
+      replicas: 4
+
+  backend:
+    build: ../backend
+    environment: 
+     - APP_VERSION=red
+    deploy:
+      mode: replicated
+      replicas: 5
+
+  redis:
+    image: redis
+     

@@ -1,0 +1,20 @@
+version: '7.1'
+
+compose:
+  files:
+    - docker-compose.yml
+  project_name: docker-example-aplication
+
+interaction:
+  backend_wait:
+    description: Run command on caddy
+    service: caddy
+    command: sh -c "while ! wget backend:8080/healthcheck -q --spider; do sleep 1; done"
+    shell: false
+
+provision:
+  - dip build
+  - dip up -d redis
+  - dip up -d backend
+  - dip backend_wait
+  - dip up -d
