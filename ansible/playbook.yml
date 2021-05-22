@@ -1,20 +1,35 @@
-- hosts: all
+- name: Install Docker
+  hosts: all
   roles:
     - geerlingguy.docker
 
-- hosts: jenkins
-  vars:
-    jenkins_hostname: jenkins.katujemy.kacik.it
-    java_packages:
-      - openjdk-11-jdk
-    jenkins_plugins:
-      - blueocean
-      - docker-workflow
-    jenkins_admin_password: "{{ lookup('file', 'jenkins_password') }}"
+- name: Install Jenkins
+  hosts: jenkins
 
   roles:
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
+      vars:
+        jenkins_hostname: jenkins.katujemy.kacik.it
+        java_packages:
+          - openjdk-11-jdk
+        jenkins_plugins:
+          - blueocean
+          - docker-workflow
+          - configuration-as-code
+          - configuration-as-code-groovy
+          - job-dsl
+        # jenkins_plugins_state: latest
+        jenkins_admin_password: "{{ lookup('file', 'jenkins_password') }}"
+    - role: wcm_io_devops.jenkins_configuration_as_code
+      vars:
+        jenkins_casc_config_path_configure: true
+        jenkins_casc_config_path: "/var/lib/jenkins/jcasc-folder"
+        jenkins_casc_jenkins_hostname: jenkins.katujemy.kacik.it
+        jenkins_casc_config_fileglobs:
+          - jcasc/jenkins_config.yml
+        jenkins_casc_admin_password: "{{ lookup('file', 'jenkins_password') }}"
+        jenkins_casc_plugins_present: []
   tasks:
     - name: adding jenkins user to group docker
       user:
