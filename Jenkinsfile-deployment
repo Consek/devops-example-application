@@ -14,9 +14,9 @@ pipeline{
         echo "Deploying to ${target}"
         sh """
         rsync --delete -rzhe "ssh -o StrictHostKeyChecking=no" ./ root@${target_host}:/app/
-        ssh -o StrictHostKeyChecking=no root@${target_host} 'cd /app/.deployment; dip provision'
+        ssh -o StrictHostKeyChecking=no root@${target_host} 'export BACKEND_HOST=${target_host}; cd /app/.deployment; dip provision'
         """
-        sh "timeout 120 wget --retry-connrefused --tries=120 --waitretry=1 -q http://${target_host}:80808888/instances -O /dev/null"
+        sh "timeout 120 wget --retry-connrefused --tries=120 --waitretry=1 -q http://${target_host}:8888/instances -O /dev/null"
       }
     }
   }
