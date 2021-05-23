@@ -5,12 +5,13 @@
 
 - name: Install Jenkins
   hosts: jenkins
-
+  vars:
+    jenkins_hostname: jenkins.katujemy.kacik.it
+    
   roles:
     - role: geerlingguy.java
     - role: geerlingguy.jenkins
       vars:
-        jenkins_hostname: jenkins.katujemy.kacik.it
         java_packages:
           - openjdk-11-jdk
         jenkins_plugins:
@@ -21,16 +22,34 @@
           - job-dsl
         # jenkins_plugins_state: latest
         jenkins_admin_password: "{{ lookup('file', 'jenkins_password') }}"
-    - role: wcm_io_devops.jenkins_configuration_as_code
+      
+  tasks:
+    - name: Wait for Jenkins to start up before proceeding.
+      uri:
+        url: "http://{{ jenkins_hostname }}:8080/cli/"
+        method: GET
+        return_content: "yes"
+        timeout: 5
+        body_format: raw
+        follow_redirects: "no"
+        status_code: 200,403
+      register: result
+      until: (result.status == 403 or result.status == 200) and (result.content.find("Please wait while") == -1)
+      retries: "{{ jenkins_connection_retries }}"
+      delay: "{{ jenkins_connection_delay }}"
+      changed_when: false
+      check_mode: false
+    - name: Import JCasC role
+      import_role:
+        name: wcm_io_devops.jenkins_configuration_as_code
       vars:
         jenkins_casc_config_path_configure: true
         jenkins_casc_config_path: "/var/lib/jenkins/jcasc-folder"
-        jenkins_casc_jenkins_hostname: jenkins.katujemy.kacik.it
+        jenkins_casc_jenkins_hostname: "{{ jenkins_hostname }}"
         jenkins_casc_config_fileglobs:
           - jcasc/jenkins_config.yml
         jenkins_casc_admin_password: "{{ lookup('file', 'jenkins_password') }}"
         jenkins_casc_plugins_present: []
-  tasks:
     - name: adding jenkins user to group docker
       user:
         name: jenkins
