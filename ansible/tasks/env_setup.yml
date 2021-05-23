@@ -1,0 +1,15 @@
+- name: Set authorized key for Jenkins connection
+  authorized_key:
+    user: root
+    state: present
+    key: "{{ hostvars['jenkins']['ssh_pub_key'] }}"
+  when: hostvars['jenkins']['ssh_pub_key'] is defined
+- name: Install Ruby
+  package:
+    name: ruby
+    state: present
+- name: Install latest available version of dip
+  gem:
+    name: dip
+    state: latest
+    user_install: no

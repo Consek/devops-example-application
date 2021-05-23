@@ -43,10 +43,25 @@
         owner: jenkins
         group: jenkins
         mode: 0700
-    - name: copy ssh key for nodes
-      copy:
-        src: ../terraform/hetzner_ssh_key
-        dest: /var/lib/jenkins/.ssh/id_rsa
+    - name: Create Jenkins ssh key
+      openssh_keypair:
+        path: /var/lib/jenkins/.ssh/id_rsa
         owner: jenkins
         group: jenkins
         mode: 0400
+      register: ssh_key
+    - name: Save Jenkins ssh public key
+      set_fact:
+        ssh_pub_key: "{{ ssh_key.public_key }}"
+    - name: Install git
+      package:
+        name: git
+        state: present
+
+- name: Configure environment nodes
+  hosts:
+    - staging 
+    - production
+  tasks:
+    - include: tasks/env_setup.yml
+
