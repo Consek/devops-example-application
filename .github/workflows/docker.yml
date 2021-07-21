@@ -8,9 +8,6 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ matrix.component }}
     strategy:
       fail-fast: false
       matrix:
@@ -43,7 +40,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ${{ matrix.component }}/.
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=registry,ref=${{ matrix.dockerhub_repo }}/${{ matrix.component }}:latest
