@@ -54,7 +54,7 @@ Whole application is kept in **frontend**, **backend** and **proxy** folders. Ea
 - **doc** - documentation related files
 - **jenkins** - container related files to deploy Jenkins locally
 - **terraform** - code for deploying infrastructure using [Hetzner Cloud](https://www.hetzner.com/) and [Cloudflare](https://www.cloudflare.com/)
-- **testing** - files for testing infrastructure (currently not used)
+- **test** - files for testing infrastructure
 
 #### Files
 
