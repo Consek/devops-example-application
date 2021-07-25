@@ -26,6 +26,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{raw}}
+            type=sha,format=long
             latest
       - 
         name: Set up Docker Buildx
@@ -43,5 +44,5 @@ jobs:
           context: ${{ matrix.component }}/.
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=${{ matrix.dockerhub_repo }}/${{ matrix.component }}:latest
+          cache-from: ${{ matrix.dockerhub_repo }}/${{ matrix.component }}:sha-${{ github.sha }},${{ matrix.dockerhub_repo }}/${{ matrix.component }}:latest
           cache-to: type=inline
