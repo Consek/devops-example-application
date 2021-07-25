@@ -3,7 +3,9 @@ name: Build and Publish docker images
 on:
   push:
     branches:
-      - docker-builder
+      - master
+    tags:
+      - 'v**'
 
 jobs:
   build-and-push:
