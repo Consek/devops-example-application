@@ -28,6 +28,14 @@ jobs:
         name: Run tests
         run: make
       -
+        name: Failure debugging
+        if: ${{ failure() }}
+        run: |
+          docker ps -a
+          docker logs deployment_frontend_1
+          docker logs deployment_proxy_1
+          docker logs deployment_backend_1
+      -
         name: Cleanup
         if: ${{ failure() || cancelled() }}
         run: make remove_services
