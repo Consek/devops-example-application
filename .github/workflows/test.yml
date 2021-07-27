@@ -24,3 +24,4 @@ jobs:
       -
         name: Cleanup
         if: ${{ failure() || cancelled() }}
+        run: make remove_services
