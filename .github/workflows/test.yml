@@ -31,6 +31,7 @@ jobs:
         name: Failure debugging
         if: ${{ failure() }}
         run: |
+          set -x
           docker ps -a
           docker logs deployment_frontend_1
           docker logs deployment_proxy_1
