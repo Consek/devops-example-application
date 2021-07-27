@@ -1,6 +1,6 @@
 .PHONY: test initialize_services install_dependencies all
 
-all: intialize_services install_dependencies test remove_services
+all: initialize_services install_dependencies test remove_services
 
 test:
 	PATH=$$PATH:~/.local/bin pytest run_tests.py
