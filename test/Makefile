@@ -1,4 +1,4 @@
-.PHONY: test intialize_services install_dependencies all
+.PHONY: test initialize_services install_dependencies all
 
 all: intialize_services install_dependencies test remove_services
 
@@ -8,9 +8,9 @@ test:
 build_images:
 	docker-compose -f ../.deployment/docker-compose.yml build --parallel
 
-intialize_services:
+initialize_services:
 	docker-compose -f ../.deployment/docker-compose.yml up -d backend redis caddy
-	docker-compose -f ../.deployment/docker-compose.yml exec -t caddy sh -c "while ! wget backend:8080/healthcheck -q --spider; do sleep 1; done"
+	docker-compose -f ../.deployment/docker-compose.yml exec -T caddy sh -c "while ! wget backend:8080/healthcheck -q --spider; do sleep 1; done"
 	docker-compose -f ../.deployment/docker-compose.yml up -d
 
 install_dependencies:
