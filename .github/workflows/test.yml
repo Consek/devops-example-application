@@ -9,6 +9,9 @@ on:
 jobs:
   run_tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: test
     steps:
       -
         name: Checkout
