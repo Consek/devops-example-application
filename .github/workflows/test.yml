@@ -1,0 +1,26 @@
+name: Test DevOps Example Application
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      -
+        name: Run tests
+        run: make
+      -
+        name: Cleanup
+        if: ${{ failure() || cancelled() }}
