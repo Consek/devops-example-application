@@ -1,13 +1,16 @@
-.PHONY: test intialize_services install_dependencies all
+.PHONY: test initialize_services install_dependencies all
 
-all: intialize_services install_dependencies test remove_services
+all: initialize_services install_dependencies test remove_services
 
 test:
 	PATH=$$PATH:~/.local/bin pytest run_tests.py
 
-intialize_services:
+build_images:
+	docker-compose -f ../.deployment/docker-compose.yml build --parallel
+
+initialize_services:
 	docker-compose -f ../.deployment/docker-compose.yml up -d backend redis caddy
-	docker-compose -f ../.deployment/docker-compose.yml exec caddy sh -c "while ! wget backend:8080/healthcheck -q --spider; do sleep 1; done"
+	docker-compose -f ../.deployment/docker-compose.yml exec -T caddy sh -c "while ! wget backend:8080/healthcheck -q --spider; do sleep 1; done"
 	docker-compose -f ../.deployment/docker-compose.yml up -d
 
 install_dependencies:

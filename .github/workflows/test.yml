@@ -1,0 +1,42 @@
+name: Test DevOps Example Application
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: test
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      -
+        name: Build images
+        run: make build_images
+      -
+        name: Run tests
+        run: make
+      -
+        name: Failure debugging
+        if: ${{ failure() }}
+        run: |
+          set -x
+          docker ps -a
+          docker logs deployment_frontend_1
+          docker logs deployment_proxy_1
+          docker logs deployment_backend_1
+      -
+        name: Cleanup
+        if: ${{ failure() || cancelled() }}
+        run: make remove_services

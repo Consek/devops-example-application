@@ -3,7 +3,7 @@ services:
 
   frontend:
     build: ../frontend
-    environment: 
+    environment:
      - BACKEND_URL=http://${BACKEND_HOST:-localhost}:8888
     ports:
      - "8000:80"
@@ -16,22 +16,25 @@ services:
 
   proxy:
     build: ../proxy
-    environment: 
+    environment:
      - TARGET_URL=http://backend:8080
      - PYTHONUNBUFFERED=1
      - APP_VERSION=green
+    ports:
+      - "8888"
     deploy:
       mode: replicated
       replicas: 4
 
   backend:
     build: ../backend
-    environment: 
+    environment:
      - APP_VERSION=red
+    ports:
+      - "8080"
     deploy:
       mode: replicated
       replicas: 5
 
   redis:
     image: redis
-     
